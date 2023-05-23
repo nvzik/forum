@@ -1,0 +1,37 @@
+{{define "title"}}Home{{end}}
+
+{{define "main"}}
+<h2>Latest Posts</h2>
+{{if .Snippets}}
+<form action="/" method="post" >
+    <input type="submit" value="filter">
+    <input type="checkbox" name="backend" value="1" >
+    <label for="backend">Backend</label>
+    <input type="checkbox" name="frontend" value="1" >
+    <label for="frontend">Frontend</label>
+    <input type="checkbox" name="fullstack" value="1" >
+    <label for="fullstack">Fullstack</label>
+</form>
+<br>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Comments</th>
+        <th>Created</th>
+        <th>Categories</th>
+        <th>ID</th>
+    </tr>
+    {{range .Snippets}}
+    <tr>
+        <td><a href="/post/view?id={{.ID}}">{{.Title}}</a></td>
+        <td>{{.SumComments}}</td>
+        <td>{{humanDate .Created}}</td>
+        <td>{{with .Backend}}Backend {{end}}{{with .Frontend}}Frontend {{end}}{{with .Fullstack}}Fullstack{{end}}</td>
+        <td>#{{.ID}}</td>
+    </tr>
+    {{end}}
+</table>
+{{else}}
+<p>There's nothing to see here yet!</p>
+{{end}}
+{{end}}

@@ -1,0 +1,26 @@
+{{define "title"}}Home{{end}}
+
+{{define "main"}}
+{{if .Snippets}}
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Comments</th>
+        <th>Created</th>
+        <th>Categories</th>
+        <th>ID</th>
+    </tr>
+    {{range .Snippets}}
+    <tr>
+        <td><a href="/post/view?id={{.ID}}">{{.Title}}</a></td>
+        <td>{{.SumComments}}</td>
+        <td>{{humanDate .Created}}</td>
+        <td>{{with .Backend}}Backend {{end}}{{with .Frontend}}Frontend {{end}}{{with .Fullstack}}Fullstack{{end}}</td>
+        <td>#{{.ID}}</td>
+    </tr>
+    {{end}}
+</table>
+{{else}}
+<p>There's nothing to see here yet!</p>
+{{end}}
+{{end}}

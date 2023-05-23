@@ -1,0 +1,57 @@
+{{define "title"}}Post #{{.Snippet.ID}}{{end}}
+
+{{define "main"}}
+{{with .Snippet}}
+<span>{{with .Backend}}
+<label>Backend</label>
+{{end}}
+{{with .Frontend}}
+<label>Frontend</label>
+{{end}}
+{{with .Fullstack}}
+<label>Fullstack</label>
+</span>
+{{end}}
+<div class="snippet">
+    <div class="metadata">
+        <strong>{{.Title}}</strong>
+        <span><b>{{.Username}}</b></span>
+    </div>
+    <pre><code>{{.Content}}</code></pre>
+    <div class="metadata">
+        <a class="reaction like" href="/likePost?id={{.ID}}"><img src="/static/img/up.png" alt="Like"></a>
+        <strong>{{.Reactions}}</strong>
+        <a class="reaction dislike" href="/dislikePost?id={{.ID}}"><img src="/static/img/down.png" alt="Dislike"></a>
+        <time>Created: {{humanDate .Created}}</time>
+    </div>
+</div>
+{{end}}
+<div>
+    <br>
+    {{with .Comments}}
+    <span>Comments: </span>
+    {{range .}}
+    <div class="snippet" >
+        <div class="metadata">
+                <a class="reaction like" href="/likeComment?id={{.ID}}">{{if .Liked}}<img src="/static/img/up.png" alt="Like">{{else}}<img src="/static/img/up.png" alt="Like">{{end}}</a>
+                <strong>{{ .Reactions}}</strong>
+                <a class="reaction dislike" href="/dislikeComment?id={{.ID}}">{{if .Disliked}}<img src="/static/img/down.png" alt="Dislike">{{else}}<img src="/static/img/down.png" alt="Dislike">{{end}}</a>
+                <strong>{{ .Username}}</strong>
+            </div>
+            <div class="commentText">
+                <b>{{ .Content}}</b>
+            </div>
+        </div>
+        <br>
+        {{end}}
+    {{end}}
+</div>
+{{ if .IsAuthenticated}}
+<span>Leave a comment: </span>
+<form action="/post/view?id={{.Snippet.ID}}" method="post">
+    <input type="text" name="content" required>
+    <input type="submit" value="Publish comment">
+</form>
+{{end}}
+
+{{end}}
